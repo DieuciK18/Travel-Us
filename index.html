@@ -1,0 +1,1845 @@
+
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+   <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Travel-Us - Votre agence de voyage premium pour des expériences inoubliables">
+    <title>Travel-Us - Agence de Voyage Premium</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@400;600;700&display=swap');
+
+        :root {
+            --primary: #38B2AC;
+            --secondary: #4299E1;
+            --accent: #F6AD55;
+            --light: #F7FAFC;
+            --dark: #2D3748;
+        }
+
+        body { 
+            font-family: 'Montserrat', sans-serif;
+            color: var(--dark);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Header styles */
+        header {
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            backdrop-filter: blur(10px);
+            background-color: rgba(67, 49, 49, 0.8);
+        }
+
+        /* Hero section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1503174971373-b1f69850b3e1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1813&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+
+        /* Destination cards */
+        .destination-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .destination-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .destination-card img {
+            transition: transform 0.5s ease;
+        }
+
+        .destination-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            padding: 1.5rem;
+            color: white;
+        }
+
+        /* Testimonial slider */
+        .testimonial-slider {
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+        }
+
+        .testimonial-slide {
+            scroll-snap-align: start;
+            flex: 0 0 auto;
+        }
+
+        /* Form styles */
+        .booking-form input,
+        .booking-form select,
+        .booking-form textarea {
+            border: 1px solid #E2E8F0;
+            transition: all 0.2s ease;
+        }
+
+        .booking-form input:focus,
+        .booking-form select:focus,
+        .booking-form textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(56, 178, 172, 0.3);
+        }
+
+        /* Animation classes */
+        .fade-in {
+            animation: fadeIn 1s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .slide-up {
+            animation: slideUp 0.8s ease forwards;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Burger menu */
+        .menu-toggle {
+            display: none;
+        }
+
+        @media (max-width: 1024px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            nav ul {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                max-width: 300px;
+                height: 100vh;
+                background-color: gray;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+                transition: right 0.3s ease;
+                z-index: 999;
+            }
+
+            nav ul.active {
+                right: 0;
+            }
+
+            .close-menu {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+            }
+        }
+
+        /* Chatbot */
+        .chatbot-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .chatbot-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .chatbot-container {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 350px;
+            max-width: 90%;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transform: scale(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .chatbot-container.active {
+            transform: scale(1);
+        }
+
+        .chatbot-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+        }
+
+        .chatbot-messages {
+            height: 300px;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        .chatbot-input {
+            border-top: 1px solid #E2E8F0;
+            padding: 1rem;
+        } 
+
+        
+        /* Custom styles for new sections */
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title p {
+            font-size: 1.125rem;
+            color: #6B7280;
+        }
+
+        /* About Section */
+        .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .about-text {
+            flex: 1 1 50%;
+            min-width: 300px;
+        }
+
+        .about-image {
+            flex: 1 1 40%;
+            min-width: 300px;
+        }
+
+        .about-image img {
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem;
+            background-color: var(--light);
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+
+        .stat-number {
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--dark);
+        }
+
+        .mission-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .mission-card {
+            text-align: center;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .mission-icon {
+            width: 4rem;
+            height: 4rem;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #E6FFFA; /* Tailwind teal-100 */
+            border-radius: 50%;
+        }
+
+        .mission-icon i {
+            font-size: 1.75rem;
+            color: var(--primary);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .team-member {
+            text-align: center;
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .member-image {
+            width: 8rem;
+            height: 8rem;
+            margin: 0 auto 1rem;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .member-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .team-member h3 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+
+        .team-member .position {
+            color: #6B7280;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .team-member .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.25rem;
+            height: 2.25rem;
+            background-color: #E2E8F0; /* Tailwind gray-200 */
+            border-radius: 50%;
+            color: var(--dark);
+            transition: all 0.3s ease;
+        }
+
+        .team-member .social-links a:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .partners-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .partners-grid img {
+            height: 4rem;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
+        .partners-grid img:hover {
+            opacity: 1;
+        }
+
+        /* Testimonials Section */
+        .testimonials-section {
+            background-color: var(--light);
+        }
+
+        .testimonial-card {
+            padding: 2rem;
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .testimonial-card .rating {
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-card .client-info h4 {
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+
+        .testimonial-card .client-info .location {
+            font-size: 0.875rem;
+            color: #6B7280;
+        }
+
+        /* Booking Section */
+        .booking-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .booking-steps::before {
+            content: '';
+            position: absolute;
+            top: 1.25rem;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #E2E8F0;
+            z-index: -1;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+
+        .step-number {
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #E2E8F0;
+            border-radius: 50%;
+            color: #6B7280;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .step-text {
+            font-size: 0.875rem;
+            color: #6B7280;
+            text-align: center;
+        }
+
+        .step.active .step-number {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .step.active .step-text {
+            color: var(--dark);
+            font-weight: bold;
+        }
+
+        .booking-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .booking-form-container {
+            flex: 2 1 60%;
+            min-width: 300px;
+            padding: 2.5rem;
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .booking-summary-container {
+            flex: 1 1 30%;
+            min-width: 280px;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 1rem; /* Adjust as needed */
+            align-self: flex-start;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #E2E8F0;
+            border-radius: 0.375rem;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(56, 178, 172, 0.3);
+            outline: none;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1.25rem;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .date-input-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .date-input-group input {
+            flex: 1;
+        }
+
+        .custom-checkbox {
+            display: block;
+            position: relative;
+            padding-left: 2rem;
+            cursor: pointer;
+            font-size: 1rem;
+            user-select: none;
+        }
+
+        .custom-checkbox input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 1.25rem;
+            width: 1.25rem;
+            background-color: #eee;
+            border-radius: 0.25rem;
+        }
+
+        .custom-checkbox:hover input ~ .checkmark {
+            background-color: #ccc;
+        }
+
+        .custom-checkbox input:checked ~ .checkmark {
+            background-color: var(--primary);
+        }
+
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        .custom-checkbox input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        .custom-checkbox .checkmark:after {
+            left: 0.45rem;
+            top: 0.2rem;
+            width: 0.3rem;
+            height: 0.6rem;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #2C7A7B; /* Darker primary */
+        }
+
+        .btn-block {
+            width: 100%;
+            display: block;
+            text-align: center;
+        }
+
+        .summary-card h3 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+        }
+
+        .destination-summary {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        .destination-summary img {
+            width: 100%;
+            height: 10rem;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .destination-summary h4 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .destination-location {
+            display: flex;
+            align-items: center;
+            color: #6B7280;
+            font-size: 0.875rem;
+        }
+
+        .destination-location i {
+            margin-right: 0.5rem;
+        }
+
+        .price-summary {
+            margin-bottom: 1.5rem;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+        }
+
+        .price-row.total {
+            font-weight: bold;
+            font-size: 1.125rem;
+            padding-top: 1rem;
+            border-top: 1px dashed #E2E8F0;
+        }
+
+        .included-features ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 1rem;
+        }
+
+        .included-features li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .included-features li i {
+            color: var(--primary);
+            margin-right: 0.5rem;
+        }
+
+        .why-us-section {
+            background-color: var(--light);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .feature-icon {
+            width: 4rem;
+            height: 4rem;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #EBF8FF; /* Tailwind blue-100 */
+            border-radius: 50%;
+        }
+
+        .feature-icon i {
+            font-size: 1.75rem;
+            color: var(--secondary);
+        }
+
+        /* Contact Section */
+        .contact-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .contact-form-container {
+            flex: 2 1 60%;
+            min-width: 300px;
+            padding: 2.5rem;
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .contact-info-container {
+            flex: 1 1 30%;
+            min-width: 280px;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .contact-method {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .method-icon {
+            width: 3rem;
+            height: 3rem;
+            background-color: #E6FFFA;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: var(--primary);
+            font-size: 1.25rem;
+        }
+
+        .method-content h4 {
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+
+        .method-content p {
+            font-size: 0.95rem;
+            color: #6B7280;
+        }
+
+        .opening-hours {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #E2E8F0;
+        }
+
+        .opening-hours p {
+            font-size: 0.95rem;
+            color: #6B7280;
+            line-height: 1.5;
+        }
+
+        /* FAQ Section */
+        .faq-container {
+            margin-top: 2rem;
+        }
+
+        .faq-item {
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            border: 1px solid #E2E8F0;
+        }
+
+        .faq-question {
+            padding: 1.25rem;
+            background-color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .faq-question h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .faq-question i {
+            color: var(--primary);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background-color: var(--light);
+        }
+
+        .faq-answer p {
+            padding: 1rem 1.25rem 1.25rem;
+            margin: 0;
+            color: #4A5568;
+            font-size: 0.95rem;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 200px; /* Adjust as needed for content */
+            transition: max-height 0.3s ease-in;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        /* Map Section */
+        .map-container {
+            margin-top: 2rem;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            position: relative;
+            height: 450px; /* Fixed height for map */
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .map-overlay {
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            max-width: 250px;
+        }
+
+        .map-overlay h3 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .map-overlay p {
+            font-size: 0.95rem;
+            color: #6B7280;
+            margin-bottom: 1rem;
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+
+        /* Support Section */
+        .support-section {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .support-card {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2.5rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .support-content {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex: 1 1 auto;
+            min-width: 250px;
+        }
+
+        .support-icon {
+            font-size: 2.5rem;
+        }
+
+        .support-card h3 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .support-card p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .support-card .btn-secondary {
+            background-color: white;
+            color: var(--primary);
+            border: 2px solid white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .support-card .btn-secondary:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 0 1.5rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-col h3 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .footer-col p {
+            font-size: 0.95rem;
+            color: #CBD5E0;
+            margin-bottom: 1rem;
+        }
+
+        .footer-col h4 {
+            font-size: 1.125rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .footer-col ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-col li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-col a {
+            color: #CBD5E0;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-col a:hover {
+            color: white;
+        }
+
+        .footer-col .social-links {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .footer-col .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.25rem;
+            height: 2.25rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+        .footer-col .social-links a:hover {
+            background-color: var(--primary);
+        }
+
+        .contact-info li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .contact-info i {
+            margin-right: 0.5rem;
+            color: var(--primary);
+        }
+
+        .newsletter-form {
+            display: flex;
+            margin-top: 1rem;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 0.375rem 0 0 0.375rem;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .newsletter-form input::placeholder {
+            color: #CBD5E0;
+        }
+
+        .newsletter-form button {
+            padding: 0.75rem 1rem;
+            background-color: var(--primary);
+            border: none;
+            border-radius: 0 0.375rem 0.375rem 0;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .newsletter-form button:hover {
+            background-color: #2C7A7B;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid #4A5568;
+            font-size: 0.875rem;
+            color: #CBD5E0;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .hero p {
+                font-size: 1.25rem;
+            }
+            .hero form {
+                grid-template-columns: 1fr;
+            }
+            .hero form button {
+                margin-top: 1rem;
+            }
+
+            .about-content, .booking-container, .contact-container {
+                flex-direction: column;
+            }
+
+            .about-text, .about-image, .booking-form-container, .booking-summary-container, .contact-form-container, .contact-info-container {
+                min-width: unset;
+                width: 100%;
+            }
+
+            .booking-summary-container {
+                position: static;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            .form-row .form-group {
+                margin-bottom: 1.25rem;
+            }
+
+            .booking-steps {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .booking-steps::before {
+                display: none;
+            }
+            .step {
+                flex-direction: row;
+                margin-bottom: 1rem;
+            }
+            .step-number {
+                margin-right: 0.75rem;
+            }
+
+            .map-overlay {
+                position: static;
+                max-width: 100%;
+                margin-top: 1.5rem;
+            }
+
+            .support-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            .support-content {
+                flex-direction: column;
+                gap: 1rem;
+                margin-bottom: 1.5rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header class="py-4 px-6 lg:px-16">
+        <div class="flex justify-between items-center max-w-7xl mx-auto">
+            <a href="#home" class="flex items-center">
+                <div class="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-teal-400 flex items-center justify-center text-white font-bold text-xl">TU</div>
+                <span class="ml-3 text-2xl font-bold text-gray-800">Travel-Us</span>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav>
+                <ul class="hidden lg:flex space-x-8">
+                    <li><a href="#home" class="font-medium text-gray-700 hover:text-teal-500 transition duration-300">Accueil</a></li>
+                    <li><a href="#destinations" class="font-medium text-gray-700 hover:text-teal-500 transition duration-300">Destinations</a></li>
+                    <li><a href="#about" class="font-medium text-gray-700 hover:text-teal-500 transition duration-300">À propos</a></li>
+                    <li><a href="#booking" class="font-medium text-gray-700 hover:text-teal-500 transition duration-300">Réservation</a></li>
+                    <li><a href="#contact" class="font-medium text-gray-700 hover:text-teal-500 transition duration-300">Contact</a></li>
+                    <li><a href="#booking" class="bg-teal-500 hover:bg-teal-600 text-white px-6 py-2 rounded-full font-medium transition duration-300">Réserver</a></li>
+                </ul>
+            </nav>
+
+            <!-- Mobile menu toggle -->
+            <button class="menu-toggle lg:hidden text-gray-700 focus:outline-none">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div class="lg:hidden">
+            <ul class="hidden flex-col fixed top-0 right-0 bg-white w-3/4 h-screen p-8 space-y-6">
+                <button class="close-menu absolute top-4 right-4 text-gray-500">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+                <li><a href="#home" class="text-xl font-medium text-gray-700 hover:text-teal-500">Accueil</a></li>
+                <li><a href="#destinations" class="text-xl font-medium text-gray-700 hover:text-teal-500">Destinations</a></li>
+                <li><a href="#about" class="text-xl font-medium text-gray-700 hover:text-teal-500">À propos</a></li>
+                <li><a href="#booking" class="text-xl font-medium text-gray-700 hover:text-teal-500">Réservation</a></li>
+                <li><a href="#contact" class="text-xl font-medium text-gray-700 hover:text-teal-500">Contact</a></li>
+                <li class="mt-8"><a href="#booking" class="block bg-teal-500 hover:bg-teal-600 text-white px-6 py-3 rounded-full text-center font-medium">Réserver</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero relative">
+            <div class="container mx-auto px-6 lg:px-16 fade-in">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6">Voyagez avec <span class="text-teal-300">Passion</span></h1>
+                <p class="text-xl md:text-2xl mb-8 max-w-2xl mx-auto">Découvrez des destinations extraordinaires avec notre agence de voyages premium</p>
+                
+                <!-- Search Form -->
+                <div class="bg-white bg-opacity-90 rounded-xl p-6 max-w-4xl mx-auto shadow-lg">
+                    <form class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label for="destination" class="block text-gray-700 font-medium mb-2">Destination</label>
+                            <input type="text" id="destination" placeholder="Où souhaitez-vous aller ?" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-400">
+                        </div>
+                        <div>
+                            <label for="date" class="block text-gray-700 font-medium mb-2">Dates</label>
+                            <input type="date" id="date" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-400">
+                        </div>
+                        <div class="flex items-end">
+                            <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-white px-6 py-3 rounded-lg font-medium transition duration-300">Rechercher</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Popular Destinations -->
+        <section id="destinations" class="py-16 px-6 lg:px-16 max-w-7xl mx-auto">
+            <li><a href="destinations.php">Destination</a></li>
+            <div class="text-center mb-12 slide-up">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Nos Destinations <span class="text-teal-500">Populaires</span></h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Découvrez nos destinations les plus prisées à travers le monde. Des plages paradisiaques aux villes fascinantes, nous avons ce qu'il vous faut.</p>
+            </div>
+
+            <!-- Destination Filters (New) -->
+            <div class="mb-8 flex flex-wrap justify-center gap-4">
+                <select id="filter-region" class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400">
+                    <option value="all">Toutes les régions</option>
+                    <option value="europe">Europe</option>
+                    <option value="america">Amérique</option>
+                    <option value="asia">Asie</option>
+                    <option value="africa">Afrique</option>
+                </select>
+                <select id="filter-type" class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400">
+                    <option value="all">Tous types</option>
+                    <option value="beach">Plage</option>
+                    <option value="mountain">Montagne</option>
+                    <option value="city">Ville</option>
+                    <option value="adventure">Aventure</option>
+                </select>
+                <select id="filter-price" class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400">
+                    <option value="all">Tous budgets</option>
+                    <option value="low">Moins de €1000</option>
+                    <option value="medium">€1000 - €2500</option>
+                    <option value="high">Plus de €2500</option>
+                </select>
+                <button class="bg-teal-500 hover:bg-teal-600 text-white px-6 py-2 rounded-lg font-medium transition duration-300">Filtrer</button>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 slide-up">
+                <!-- Destination 1 -->
+                <div class="destination-card h-96 relative">
+                    <img src="https://images.unsplash.com/photo-1518391846015-55a9cc003b25?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Bali, Indonésie" class="w-full h-full object-cover">
+                    <div class="card-overlay">
+                        <h3 class="text-xl font-bold">Bali, Indonésie</h3>
+                        <p class="text-sm">À partir de <span class="font-bold">€1,299</span></p>
+                        <a href="#booking" class="absolute bottom-4 right-4 bg-white text-teal-500 px-4 py-2 rounded-full text-sm font-medium hover:bg-teal-500 hover:text-white transition duration-300">Réserver</a>
+                    </div>
+                </div>
+
+                <!-- Destination 2 -->
+                <div class="destination-card h-96 relative">
+                    <img src="https://images.unsplash.com/photo-1501594907352-04cda38ebc29?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80" alt="Paris, France" class="w-full h-full object-cover">
+                    <div class="card-overlay">
+                        <h3 class="text-xl font-bold">Paris, France</h3>
+                        <p class="text-sm">À partir de <span class="font-bold">€799</span></p>
+                        <a href="#booking" class="absolute bottom-4 right-4 bg-white text-teal-500 px-4 py-2 rounded-full text-sm font-medium hover:bg-teal-500 hover:text-white transition duration-300">Réserver</a>
+                    </div>
+                </div>
+
+                <!-- Destination 3 -->
+                <div class="destination-card h-96 relative">
+                    <img src="https://images.unsplash.com/photo-1549144511-f099e773c147?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1587&q=80" alt="Tokyo, Japon" class="w-full h-full object-cover">
+                    <div class="card-overlay">
+                        <h3 class="text-xl font-bold">Tokyo, Japon</h3>
+                        <p class="text-sm">À partir de <span class="font-bold">€2,199</span></p>
+                        <a href="#booking" class="absolute bottom-4 right-4 bg-white text-teal-500 px-4 py-2 rounded-full text-sm font-medium hover:bg-teal-500 hover:text-white transition duration-300">Réserver</a>
+                    </div>
+                </div>
+
+                <!-- Destination 4 -->
+                <div class="destination-card h-96 relative">
+                    <img src="https://images.unsplash.com/photo-1500313830540-7b6650a74fd0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="New York, USA" class="w-full h-full object-cover">
+                    <div class="card-overlay">
+                        <h3 class="text-xl font-bold">New York, USA</h3>
+                        <p class="text-sm">À partir de <span class="font-bold">€1,499</span></p>
+                        <a href="#booking" class="absolute bottom-4 right-4 bg-white text-teal-500 px-4 py-2 rounded-full text-sm font-medium hover:bg-teal-500 hover:text-white transition duration-300">Réserver</a>
+                    </div>
+                </div>        
+
+                        
+                <!-- Destination 5 (New) -->
+                <div class="destination-card h-96 relative" data-region="africa" data-type="adventure" data-price="high">
+                    <img src="https://media.routard.com/image/94/8/fb-cape-town.1472948.jpg" alt="Le Cap, Afrique du Sud" class="w-full h-full object-cover">
+                    <div class="card-overlay">
+                        <h3 class="text-xl font-bold">Le Cap, Afrique du Sud</h3>
+                        <p class="text-sm">À partir de <span class="font-bold">€2,800</span></p>
+                        <a href="#booking" class="absolute bottom-4 right-4 bg-white text-teal-500 px-4 py-2 rounded-full text-sm font-medium hover:bg-teal-500 hover:text-white transition duration-300">Réserver</a>
+                    </div>
+                </div>
+
+                <!-- Destination 6 (New) -->
+                <div class="destination-card h-96 relative" data-region="europe" data-type="mountain" data-price="medium">
+                    <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Alpes Suisses" class="w-full h-full object-cover">
+                    <div class="card-overlay">
+                        <h3 class="text-xl font-bold">Alpes Suisses</h3>
+                        <p class="text-sm">À partir de <span class="font-bold">€1,800</span></p>
+                        <a href="#booking" class="absolute bottom-4 right-4 bg-white text-teal-500 px-4 py-2 rounded-full text-sm font-medium hover:bg-teal-500 hover:text-white transition duration-300">Réserver</a>
+                    </div>
+                </div>
+
+                
+            </div>
+        </section>
+
+        <!-- About Section (New) -->
+        <section id="about" class="py-16 px-6 lg:px-16 max-w-7xl mx-auto bg-gray-50">
+            <div class="text-center mb-12 slide-up section-title">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">À propos de <span class="text-teal-500">Travel-Us</span></h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Découvrez qui nous sommes et notre passion pour les voyages.</p>
+            </div>
+
+            <div class="about-content mb-12">
+                <div class="about-text">
+                    <h3 class="text-2xl font-bold mb-4">Notre Histoire</h3>
+                    <p class="text-gray-700 mb-4">Fondée en 2023, Travel-Us est née de la passion d'une équipe de globe-trotters pour les voyages authentiques et les rencontres culturelles. Notre mission est de vous offrir des expériences de voyage uniques qui dépassent vos attentes.</p>
+                    <p class="text-gray-700">Nous croyons que chaque voyage est une opportunité de croissance personnelle et de découverte. C'est pourquoi nous nous engageons à créer des itinéraires personnalisés qui reflètent vos désirs et vos rêves.</p>
+                    
+                    <div class="about-stats mt-8">
+                        <div class="stat-item">
+                            <div class="stat-number">15K+</div>
+                            <div class="stat-label">Clients satisfaits</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">50+</div>
+                            <div class="stat-label">Destinations</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">100%</div>
+                            <div class="stat-label">Satisfaction</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="L'équipe Travel-Us en réunion" class="w-full h-auto rounded-lg shadow-lg">
+                </div>
+            </div>
+
+            <div class="text-center mb-12 section-title">
+                <h3 class="text-3xl md:text-4xl font-bold mb-4">Notre Mission & <span class="text-teal-500">Valeurs</span></h3>
+                <p class="text-gray-600 max-w-2xl mx-auto">Des principes qui guident chaque étape de votre voyage.</p>
+            </div>
+
+            <div class="mission-grid mb-12">
+                <div class="mission-card">
+                    <div class="mission-icon">
+                        <i class="fas fa-globe-americas"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-2">Découverte</h4>
+                    <p class="text-gray-700">Vous faire découvrir des destinations authentiques hors des sentiers battus.</p>
+                </div>
+                <div class="mission-card">
+                    <div class="mission-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-2">Passion</h4>
+                    <p class="text-gray-700">Notre passion pour les voyages se reflète dans chaque expérience que nous créons.</p>
+                </div>
+                <div class="mission-card">
+                    <div class="mission-icon">
+                        <i class="fas fa-hand-holding-heart"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-2">Service</h4>
+                    <p class="text-gray-700">Un service personnalisé et attentionné à chaque étape de votre voyage.</p>
+                </div>
+            </div>
+
+            <div class="text-center mb-12 section-title">
+                <h3 class="text-3xl md:text-4xl font-bold mb-4">Notre <span class="text-teal-500">Équipe</span></h3>
+                <p class="text-gray-600 max-w-2xl mx-auto">Des experts passionnés par les voyages.</p>
+            </div>
+
+            <div class="team-grid mb-12">
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="assets\image\Me.7.jpg" alt="Dieuci Kongolo, Fondateur">
+                    </div>
+                    <h3 class="text-xl font-bold">Dieuc Kongolo</h3>
+                    <p class="position">Fondateur & CEO</p>
+                    <div class="social-links flex justify-center space-x-2">
+                        <a href="https://cd.linkedin.com/in/dieuci-kongolo-469597271"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="" alt="Nehemie GK, Directeur des Voyages">
+                    </div>
+                    <h3 class="text-xl font-bold">Nehemie GK</h3>
+                    <p class="position">Directeur des Voyages</p>
+                    <div class="social-links flex justify-center space-x-2">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29329?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Marie Lambert, Responsable Clientèle">
+                    </div>
+                    <h3 class="text-xl font-bold">Marie Lambert</h3>
+                    <p class="position">Responsable Clientèle</p>
+                    <div class="social-links flex justify-center space-x-2">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mb-12 section-title">
+                <h3 class="text-3xl md:text-4xl font-bold mb-4">Nos <span class="text-teal-500">Partenaires</span></h3>
+                <p class="text-gray-600 max-w-2xl mx-auto">Des collaborations de confiance pour des voyages sans souci.</p>
+            </div>
+
+            <div class="partners-grid mb-12">
+                <img src="https://via.placeholder.com/150x60?text=Air+France" alt="Logo Air France">
+                <img src="https://via.placeholder.com/150x60?text=Hilton" alt="Logo Hilton">
+                <img src="https://via.placeholder.com/150x60?text=Tourisme+France" alt="Logo Tourisme France">
+                <img src="https://via.placeholder.com/150x60?text=Europcar" alt="Logo Europcar">
+                <img src="https://via.placeholder.com/150x60?text=Visa" alt="Logo Visa">
+            </div>
+
+            <div class="text-center mb-12 section-title">
+                <h3 class="text-3xl md:text-4xl font-bold mb-4">Témoignages <span class="text-teal-500">Clients</span></h3>
+                <p class="text-gray-600 max-w-2xl mx-auto">Ce que nos clients disent de nous.</p>
+            </div>
+
+            <div class="testimonial-slider overflow-x-auto flex snap-x snap-mandatory pb-4">
+                <!-- Testimonial 1 -->
+                <div class="testimonial-card flex-none w-full md:w-1/2 lg:w-1/3 snap-center p-4">
+                    <div class="rating text-yellow-500 mb-2">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-700 italic mb-4">"Un voyage inoubliable à Bali ! Tout était parfaitement organisé, des vols aux activités. Travel-Us a dépassé toutes nos attentes."</p>
+                    <div class="client-info">
+                        <h4 class="font-bold text-gray-800">Sophie L.</h4>
+                        <span class="location text-gray-600">Paris, France</span>
+                    </div>
+                </div>
+                <!-- Testimonial 2 -->
+                <div class="testimonial-card flex-none w-full md:w-1/2 lg:w-1/3 snap-center p-4">
+                    <div class="rating text-yellow-500 mb-2">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <p class="text-gray-700 italic mb-4">"Leur équipe a su créer un itinéraire sur mesure pour notre aventure en Patagonie. Des paysages à couper le souffle et un service impeccable."</p>
+                    <div class="client-info">
+                        <h4 class="font-bold text-gray-800">Marc D.</h4>
+                        <span class="location text-gray-600">Lyon, France</span>
+                    </div>
+                </div>
+                <!-- Testimonial 3 -->
+                <div class="testimonial-card flex-none w-full md:w-1/2 lg:w-1/3 snap-center p-4">
+                    <div class="rating text-yellow-500 mb-2">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-700 italic mb-4">"Première fois au Japon et grâce à Travel-Us, ce fut une expérience culturelle riche et sans stress. Je recommande vivement !"</p>
+                    <div class="client-info">
+                        <h4 class="font-bold text-gray-800">Julie P.</h4>
+                        <span class="location text-gray-600">Marseille, France</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Booking Section (New) -->
+        <section id="booking" class="py-16 px-6 lg:px-16 max-w-7xl mx-auto bg-white">
+            <div class="text-center mb-12 slide-up section-title">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Réservez votre <span class="text-teal-500">Voyage</span></h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Créez des souvenirs inoubliables avec Travel-Us.</p>
+            </div>
+
+            <div class="booking-steps mb-8">
+                <div class="step active">
+                    <span class="step-number">1</span>
+                    <span class="step-text">Choisissez votre destination</span>
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <span class="step-text">Personnalisez votre voyage</span>
+                </div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <span class="step-text">Confirmation</span>
+                </div>
+            </div>
+
+            <div class="booking-container">
+                <div class="booking-form-container">
+                    <h3 class="text-2xl font-bold mb-6">Informations de réservation</h3>
+                    
+                    <form id="bookingForm" action="reservation.php" method="POST">
+                        <div class="form-group">
+                            <label for="booking-destination" class="block text-gray-700 font-medium mb-2">Destination</label>
+                            <select name="destination_id" id="booking-destination" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-400">
+                                <option value="">Sélectionnez une destination</option>
+                                <option value="bali">Bali, Indonésie</option>
+                                <option value="paris">Paris, France</option>
+                                <option value="tokyo">Tokyo, Japon</option>
+                                <option value="newyork">New York, USA</option>
+                                <option value="capetown">Le Cap, Afrique du Sud</option>
+                                <option value="alps">Alpes Suisses</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="start_date" class="block text-gray-700 font-medium mb-2">Dates de voyage</label>
+                                <div class="date-input-group">
+                                    <input type="date" name="start_date" id="start_date" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-400">
+                                    <span class="text-gray-600">au</span>
+                                    <input type="date" name="end_date" id="end_date" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-400">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="travelers" class="block text-gray-700 font-medium mb-2">Nombre de voyageurs</label>
+                                <select name="travelers" id="travelers" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-400">
+                                    <option value="1">1 Voyageur</option>
+                                    <option value="2" selected>2 Voyageurs</option>
+                                    <option value="3">3 Voyageurs</option>
+                                    <option value="4">4 Voyageurs</option>
+                                    <option value="family">Famille (4+)</option>
+                                    <option value="group">Groupe (10+)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="custom-checkbox text-gray-700">
+                                <input type="checkbox" name="flight_included" id="flight_included">
+                                <span class="checkmark"></span>
+                                Inclure les billets d'avion
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="custom-checkbox text-gray-700">
+                                <input type="checkbox" name="hotel_included" id="hotel_included">
+                                <span class="checkmark"></span>
+                                Inclure l'hébergement
+                            </label>
+                        </div>
+
+                        <h3 class="text-2xl font-bold mb-4 mt-8">Informations personnelles</h3>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="first_name" class="block text-gray-700 font-medium mb-2">Prénom</label>
+                                <input type="text" name="first_name" id="first_name" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-400">
+                            </div>
+                            <div class="form-group">
+                                <label for="last_name" class="block text-gray-700 font-medium mb-2">Nom</label>
+                                <input type="text" name="last_name" id="last_name" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-400">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" class="block text-gray-700 font-medium mb-2">Email</label>
+                            <input type="email" name="email" id="email" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-400">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone" class="block text-gray-700 font-medium mb-2">Téléphone</label>
+                            <input type="tel" name="phone" id="phone" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-400">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="special_requests" class="block text-gray-700 font-medium mb-2">Demandes spéciales</label>
+                            <textarea name="special_requests" id="special_requests" rows="3" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-400"></textarea>
+                        </div>
+
+                        <div class="form-submit mt-8">
+                            <button type="submit" name="submit_reservation" class="btn-primary w-full">
+                                Envoyer la demande <i class="fas fa-paper-plane ml-2"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="booking-summary-container">
+                    <div class="summary-card">
+                        <h3 class="text-2xl font-bold mb-4">Résumé de votre réservation</h3>
+                        
+                        <div class="destination-summary pb-4 mb-4 border-b border-gray-200">
+                            <div class="destination-image mb-4">
+                                <img src="https://images.unsplash.com/photo-1518391846015-55a9cc003b25?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Bali, Indonésie" class="w-full h-40 object-cover rounded-lg">
+                            </div>
+                            <h4 class="text-xl font-bold">Bali, Indonésie</h4>
+                            <div class="destination-location flex items-center text-gray-600 text-sm">
+                                <i class="fas fa-map-marker-alt mr-2"></i>
+                                <span>Indonésie</span>
+                            </div>
+                        </div>
+
+                        <div class="price-summary mb-4">
+                            <h4 class="text-lg font-bold mb-2">Détails du prix</h4>
+                            <div class="price-row flex justify-between mb-2 text-gray-700">
+                                <span>Voyage (par personne)</span>
+                                <span>€1,299</span>
+                            </div>
+                            <div class="price-row flex justify-between mb-2 text-gray-700">
+                                <span>Vol (optionnel)</span>
+                                <span id="flight-price">€0</span>
+                            </div>
+                            <div class="price-row flex justify-between mb-2 text-gray-700">
+                                <span>Hébergement (optionnel)</span>
+                                <span id="hotel-price">€0</span>
+                            </div>
+                            <div class="price-row total flex justify-between pt-4 border-t border-dashed border-gray-300 font-bold text-lg">
+                                <span>Total estimé</span>
+                                <span id="estimated-total">€1,299</span>
+                            </div>
+                        </div>
+
+                        <div class="included-features mb-4">
+                            <h4 class="text-lg font-bold mb-2">Ce qui est inclus</h4>
+                            <ul class="list-none p-0 m-0">
+                                <li class="flex items-center mb-1 text-gray-700"><i class="fas fa-check text-teal-500 mr-2"></i> Guide touristique professionnel</li>
+                                <li class="flex items-center mb-1 text-gray-700"><i class="fas fa-check text-teal-500 mr-2"></i> Transport sur place</li>
+                                <li class="flex items-center mb-1 text-gray-700"><i class="fas fa-check text-teal-500 mr-2"></i> Activités et excursions</li>
+                                <li class="flex items-center mb-1 text-gray-700"><i class="fas fa-check text-teal-500 mr-2"></i> Support 24/7</li>
+                            </ul>
+                        </div>
+
+                        <div class="need-help pt-4 border-t border-gray-200">
+                            <h4 class="text-lg font-bold mb-2">Besoin d'aide?</h4>
+                            <p class="text-gray-700 mb-4">Notre équipe est disponible pour répondre à vos questions.</p>
+                            <a href="#contact" class="bg-teal-500 hover:bg-teal-600 text-white px-6 py-3 rounded-full font-medium transition duration-300 flex items-center justify-center">
+                                <i class="fas fa-phone-alt mr-2"></i> Contactez-nous
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Us Section (New) -->
+        <section id="why-us" class="py-16 px-6 lg:px-16 max-w-7xl mx-auto bg-gray-50">
+            <div class="text-center mb-12 slide-up section-title">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Pourquoi choisir <span class="text-teal-500">Travel-Us?</span></h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Nous nous engageons à rendre votre voyage inoubliable.</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Expertise</h3>
+                    <p class="text-gray-700">Plus de 10 ans d'expérience dans l'organisation de voyages.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-hand-holding-heart"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Service personnalisé</h3>
+                    <p class="text-gray-700">Un conseiller dédié pour chaque voyageur.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Assurance incluse</h3>
+                    <p class="text-gray-700">Tous nos voyages incluent une assurance annulation et assistance.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section (New) -->
+        <section id="contact" class="py-16 px-6 lg:px-16 max-w-7xl mx-auto bg-white">
+            <div class="text-center mb-12 slide-up section-title">
+                <a href="destinations.php"></a>
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Contactez-nous</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Nous sommes là pour répondre à toutes vos questions.</p>
+            </div>
+
+            <div class="contact-container">
+                <div class="contact-form-container">
+                    <h3 class="text-2xl font-bold mb-6">Envoyez-nous un message</h3>
+                    <p class="text-gray-700 mb-6">Remplissez le formulaire ci-dessous et nous vous répondrons dans les plus brefs délais.</p>
+                    
+                    <form id="contactForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="contact-name" class="block text-gray-700 font-medium mb-2">Votre nom</label>
+                                <input type="text" name="name" id="contact-name" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-400">
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-email" class="block text-gray-700 font-medium mb-2">Votre email</label>
+                                <input type="email" name="email" id="contact-email" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-400">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contact-subject" class="block text-gray-700 font-medium mb-2">Sujet</label>
+                            <select name="subject" id="contact-subject" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-400">
+                                <option value="">Choisissez un sujet</option>
+                                <option value="reservation">Demande de réservation</option>
+                                <option value="information">Demande d'information</option>
+                                <option value="custom">Voyage sur mesure</option>
+                                <option value="group">Voyage en groupe</option>
+                                <option value="other">Autre</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contact-message" class="block text-gray-700 font-medium mb-2">Votre message</label>
+                            <textarea name="message" id="contact-message" rows="5" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-400"></textarea>
+                        </div>
+                        
+                        <div class="form-submit mt-8">
+                            <button type="submit" name="submit_contact" class="btn-primary w-full">
+                                Envoyer le message <i class="fas fa-paper-plane ml-2"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="contact-info-container">
+                    <h3 class="text-2xl font-bold mb-6">Coordonnées</h3>
+                    
+                    <div class="contact-method mb-4">
+                        <div class="method-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="method-content">
+                            <h4 class="font-bold text-gray-800">Adresse</h4>
+                            <p class="text-gray-700">123 Rue du Voyage, 75001 Paris, France</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-method mb-4">
+                        <div class="method-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="method-content">
+                            <h4 class="font-bold text-gray-800">Téléphone</h4>
+                            <p class="text-gray-700">+33 1 23 45 67 89</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-method mb-4">
+                        <div class="method-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="method-content">
+                            <h4 class="font-bold text-gray-800">Email</h4>
+                            <p class="text-gray-700">contact@travel-us.com</p>
+                        </div>
+                    </div>
+                    
+                    <div class="opening-hours mt-8 pt-4 border-t border-gray-200">
+                        <h4 class="font-bold text-gray-800 mb-2">Heures d'ouverture</h4>
+                        <p class="text-gray-700">
+                            <strong>Lundi - Vendredi:</strong> 9h00 - 18h00<br>
+                            <strong>Samedi:</strong> 10h00 - 16h00<br>
+                            <strong>Dimanche:</strong> Fermé
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mb-12 mt-16 slide-up section-title">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Questions <span class="text-teal-500">Fréquentes</span></h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Voici les réponses aux questions les plus posées.</p>
+            </div>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3 class="text-gray-800">Quelles sont les méthodes de paiement acceptées?</h3>
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="text-gray-700">Nous acceptons les cartes de crédit Visa, Mastercard et American Express, ainsi que les virements bancaires et PayPal.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3 class="text-gray-800">Quelle est la politique d'annulation?</h3>
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="text-gray-700">Vous pouvez annuler votre réservation jusqu'à 30 jours avant le départ pour un remboursement complet. Des frais d'annulation peuvent s'appliquer pour les annulations plus tardives.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3 class="text-gray-800">Proposez-vous des voyages sur mesure?</h3>
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="text-gray-700">Oui, notre équipe peut créer un voyage entièrement personnalisé selon vos souhaits et votre budget. Contactez-nous pour discuter de vos besoins.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3 class="text-gray-800">Quelles sont les mesures sanitaires en place?</h3>
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="text-gray-700">Nous suivons toutes les directives sanitaires locales et international
+                                                  pour garantir un environnement sûr pour nos clients.</
+
+</body>
+</html>
